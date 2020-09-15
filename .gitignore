@@ -122,10 +122,6 @@ atlassian-ide-plugin.xml
 
 # Cursive Clojure plugin
 .idea/
-/booster.iml
-/booster-annotation/booster-annotation.iml
-/booster-core/booster-core.iml
-/booster-util/booster-util.iml
 
 # Crashlytics plugin (for Android Studio and IntelliJ)
 com_crashlytics_export_strings.xml
@@ -166,3 +162,9 @@ Icon
 Network Trash Folder
 Temporary Items
 .apdisk
+
+# 手动忽略文件
+/booster.iml
+/booster-annotation/booster-annotation.iml
+/booster-core/booster-core.iml
+/booster-util/booster-util.iml
