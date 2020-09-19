@@ -1,4 +1,4 @@
-package com.github.booster.util;
+package com.github.booster.common.util;
 
 /**
  * @author Yujiumin

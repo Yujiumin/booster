@@ -30,6 +30,11 @@
             <artifactId>booster-annotation</artifactId>
             <version>${project.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.github.booster</groupId>
+            <artifactId>booster-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
     </dependencies>
 
     <build>

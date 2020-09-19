@@ -1,9 +1,10 @@
 package com.github.booster.core.consumer;
 
 import com.github.booster.core.builder.AbstractBuilder;
-import com.github.booster.core.exception.BoosterException;
-import com.github.booster.util.ObjectUtils;
-import com.github.booster.util.StringUtils;
+import com.github.booster.common.constant.BoosterConstant;
+import com.github.booster.common.exception.BoosterException;
+import com.github.booster.common.util.ObjectUtils;
+import com.github.booster.common.util.StringUtils;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.common.consumer.ConsumeFromWhere;
@@ -39,7 +40,7 @@ public class BoosterConsumer {
             for (Subscription subscription : builder.subscriptions) {
                 String topic = subscription.getTopic();
                 String[] tags = subscription.getTags();
-                consumer.subscribe(topic, String.join("||", tags));
+                consumer.subscribe(topic, String.join(BoosterConstant.TAG_SEPARATOR, tags));
             }
 
         } catch (MQClientException e) {

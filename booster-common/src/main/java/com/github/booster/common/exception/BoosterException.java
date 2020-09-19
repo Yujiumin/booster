@@ -1,4 +1,4 @@
-package com.github.booster.core.exception;
+package com.github.booster.common.exception;
 
 /**
  * 自定义异常

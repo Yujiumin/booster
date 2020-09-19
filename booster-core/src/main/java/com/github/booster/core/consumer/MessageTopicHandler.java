@@ -1,9 +1,9 @@
 package com.github.booster.core.consumer;
 
 import com.github.booster.annotation.Consumer;
-import com.github.booster.core.constant.BoosterConstant;
-import com.github.booster.core.exception.BoosterException;
-import com.github.booster.util.CollectionUtils;
+import com.github.booster.common.constant.BoosterConstant;
+import com.github.booster.common.exception.BoosterException;
+import com.github.booster.common.util.CollectionUtils;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
 import org.apache.rocketmq.common.message.MessageExt;
 import org.slf4j.Logger;

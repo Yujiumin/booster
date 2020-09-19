@@ -1,4 +1,4 @@
-package com.github.booster.core.constant;
+package com.github.booster.common.constant;
 
 /**
  * 常量

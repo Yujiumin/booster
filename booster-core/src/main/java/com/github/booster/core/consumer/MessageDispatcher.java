@@ -1,7 +1,7 @@
 package com.github.booster.core.consumer;
 
 import com.github.booster.annotation.Consumer;
-import com.github.booster.util.CollectionUtils;
+import com.github.booster.common.util.CollectionUtils;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
 import org.apache.rocketmq.client.consumer.listener.MessageListenerConcurrently;
