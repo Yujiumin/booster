@@ -16,6 +16,6 @@ public interface BoosterConstant {
     /**
      * 任何
      */
-    String ANY = "*";
+    String TAG_ANY = "*";
 
 }

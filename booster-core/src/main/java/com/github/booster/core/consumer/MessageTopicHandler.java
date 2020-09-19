@@ -37,7 +37,7 @@ public class MessageTopicHandler implements MessageHandler {
             Consumer consumerAnnotation = messageHandlerClass.getAnnotation(Consumer.class);
             List<String> tagList = Arrays.asList(consumerAnnotation.tags());
 
-            // 当前的TAG与同Topic下的messageHandlers是否有重复消费的地方
+            // 检查当前的TAG与同TOPIC下的messageHandlers是否有重复消费的地方
             for (List<String> tagKey : messageHandlerMap.keySet()) {
                 Collection<String> intersect = CollectionUtils.intersect(tagKey, tagList);
                 boolean isTagRepeated = !CollectionUtils.isEmpty(intersect);
@@ -50,8 +50,9 @@ public class MessageTopicHandler implements MessageHandler {
                     throw new BoosterException("消费重复");
                 }
             }
+
             // 当前messageHandler是否消费任何TAG
-            boolean isConsumeAnyTag = Objects.equals(tagList.size(), 1) && tagList.contains("*");
+            boolean isConsumeAnyTag = Objects.equals(tagList.size(), 1) && tagList.contains(BoosterConstant.TAG_ANY);
             if (isConsumeAnyTag) {
                 this.messageHandler = messageHandler;
             } else {
@@ -67,6 +68,7 @@ public class MessageTopicHandler implements MessageHandler {
                 logger.warn("[{}] 不再具有消费能力", messageHandler.getClass().getName());
             }
             messageHandlerMap = null;
+            System.gc();
         } else {
             for (List<String> tagKey : messageHandlerMap.keySet()) {
                 MessageHandler messageHandler = messageHandlerMap.get(tagKey);
@@ -79,19 +81,19 @@ public class MessageTopicHandler implements MessageHandler {
 
     @Override
     public ConsumeConcurrentlyStatus consumeMessage(MessageExt messageExt) {
-        String tags = messageExt.getTags();
-        logger.info("[{}]收到消息，TAG为[{}]", getClass().getName(), tags);
+        String currentMessageTags = messageExt.getTags();
+        logger.info("[{}]收到消息，TAG为[{}]", getClass().getName(), currentMessageTags);
         if (!Objects.isNull(messageHandler)) {
             // 当前有处理所有TAG的消息处理器
             return messageHandler.consumeMessage(messageExt);
-        } else if (!Objects.isNull(tags) && !Objects.equals(tags, BoosterConstant.ANY)) {
+        } else if (!Objects.isNull(currentMessageTags) && !Objects.equals(currentMessageTags, BoosterConstant.TAG_ANY)) {
             // 消息的标签不为空 && 并且消息的标签不为 “*”
-            List<String> tagList = Arrays.asList(tags.split(BoosterConstant.TAG_SEPARATOR));
-            for (List<String> tagKey : messageHandlerMap.keySet()) {
-                Collection<String> intersect = CollectionUtils.intersect(tagKey, tagList);
+            List<String> currentMessageTagList = Arrays.asList(currentMessageTags.split(BoosterConstant.TAG_SEPARATOR));
+            for (List<String> tagList : messageHandlerMap.keySet()) {
+                Collection<String> intersect = CollectionUtils.intersect(tagList, currentMessageTagList);
                 if (!CollectionUtils.isEmpty(intersect)) {
                     // 和当前MessageHandler处理的TAG有交集
-                    MessageHandler messageHandler = messageHandlerMap.get(tagKey);
+                    MessageHandler messageHandler = messageHandlerMap.get(tagList);
                     return messageHandler.consumeMessage(messageExt);
                 }
             }
