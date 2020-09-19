@@ -22,11 +22,6 @@
         </dependency>
         <dependency>
             <groupId>com.github.booster</groupId>
-            <artifactId>booster-util</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.booster</groupId>
             <artifactId>booster-annotation</artifactId>
             <version>${project.version}</version>
         </dependency>
