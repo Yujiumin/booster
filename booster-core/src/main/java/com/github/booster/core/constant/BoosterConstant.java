@@ -1,7 +1,7 @@
 package com.github.booster.core.constant;
 
 /**
- * 正则表达式常量
+ * 常量
  *
  * @author Yujiumin
  * @version 2020/09/14

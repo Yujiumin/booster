@@ -6,6 +6,8 @@ import org.apache.rocketmq.common.message.MessageExt;
 import java.util.List;
 
 /**
+ * 消息处理器接口
+ *
  * @author Yujiumin
  * @version 2020/09/13
  */

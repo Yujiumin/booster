@@ -8,6 +8,8 @@ import org.apache.rocketmq.common.message.Message;
 import org.apache.rocketmq.remoting.exception.RemotingException;
 
 /**
+ * RocketMQ生产者
+ *
  * @author Yujiumin
  * @version 2020/09/13
  */

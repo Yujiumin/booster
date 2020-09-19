@@ -14,6 +14,8 @@ import org.slf4j.LoggerFactory;
 import java.util.Objects;
 
 /**
+ * Booster消费者（对RocketMQ的消费者进行包装）
+ *
  * @author Yujiumin
  * @version 2020/09/13
  */

@@ -1,6 +1,8 @@
 package com.github.booster.core.exception;
 
 /**
+ * 自定义异常
+ *
  * @author Yujiumin
  * @version 2020/09/13
  */
