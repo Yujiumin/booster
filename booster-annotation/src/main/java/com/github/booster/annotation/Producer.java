@@ -3,6 +3,8 @@ package com.github.booster.annotation;
 import java.lang.annotation.*;
 
 /**
+ * 生产者注解
+ *
  * @author Yujiumin
  * @version 2020/9/10
  */

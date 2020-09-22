@@ -3,7 +3,7 @@ package com.github.booster.annotation;
 import java.lang.annotation.*;
 
 /**
- * RocketMQ 消费者注解
+ * 消费者注解
  *
  * @author Yujiumin
  * @version 2020/9/7
