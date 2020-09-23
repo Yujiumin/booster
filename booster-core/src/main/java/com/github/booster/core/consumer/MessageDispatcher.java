@@ -32,7 +32,7 @@ public class MessageDispatcher implements MessageListenerConcurrently {
 
     MessageDispatcher(MessageHandler[] messageHandlers) {
         this();
-        if (!CollectionUtils.isEmpty(Arrays.asList(messageHandlers))) {
+        if (!Objects.isNull(messageHandlers)) {
             // 按topic对MessageHandler进行分组
             for (MessageHandler messageHandler : messageHandlers) {
                 Class<? extends MessageHandler> messageHandlerClass = messageHandler.getClass();

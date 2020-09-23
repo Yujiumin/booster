@@ -9,6 +9,7 @@ import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.common.consumer.ConsumeFromWhere;
 import org.apache.rocketmq.common.protocol.heartbeat.MessageModel;
+import org.apache.rocketmq.remoting.exception.RemotingConnectException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -127,6 +128,8 @@ public class BoosterConsumer {
                 throw new BoosterException("NameServer地址未指定");
             } else if (Objects.isNull(groupName)) {
                 throw new BoosterException("GroupName不可为空");
+            } else if (Objects.isNull(subscriptions)) {
+                throw new BoosterException("啥都不订阅就消费，想啥呢？");
             } else {
                 return new BoosterConsumer(this);
             }
