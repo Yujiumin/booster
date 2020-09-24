@@ -14,7 +14,7 @@ public class StringUtils {
      * @return 拼接好的字符串
      */
     public static String link(CharSequence delimiter, String... strings) {
-        return String.join(ObjectUtils.isNull(delimiter, ""), strings);
+        return String.join(ObjectUtils.nullOrElse(delimiter, ""), strings);
     }
 
 
