@@ -6,9 +6,8 @@ import com.github.booster.common.util.StringUtils;
 import com.github.booster.core.builder.AbstractBuilder;
 import org.apache.rocketmq.client.exception.MQClientException;
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
-import org.apache.rocketmq.client.producer.SendCallback;
-import org.apache.rocketmq.common.message.Message;
-import org.apache.rocketmq.remoting.exception.RemotingException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Objects;
 
@@ -20,22 +19,32 @@ import java.util.Objects;
  */
 public class BoosterProducer {
 
+    private Logger logger = LoggerFactory.getLogger(BoosterProducer.class);
+
     private DefaultMQProducer producer;
 
     private BoosterProducer(Builder builder) {
         producer = new DefaultMQProducer(builder.groupName);
         producer.setNamesrvAddr(builder.nameServerAddr);
-        producer.setInstanceName(ObjectUtils.isNull(builder.instanceName, StringUtils.link("_", builder.groupName.toUpperCase(), "PRODUCER")));
-        producer.setRetryTimesWhenSendAsyncFailed(ObjectUtils.isNull(builder.retryTimesWhenSendAsyncFailed, producer.getRetryTimesWhenSendAsyncFailed()));
-        producer.setMaxMessageSize(ObjectUtils.isNull(builder.maxMessageSize, producer.getMaxMessageSize()));
-        producer.setVipChannelEnabled(ObjectUtils.isNull(builder.vipChannelEnabled, producer.isVipChannelEnabled()));
+        producer.setInstanceName(ObjectUtils.nullOrElse(builder.instanceName,StringUtils.link("_", builder.groupName.toUpperCase(), "PRODUCER")));
+        producer.setRetryTimesWhenSendAsyncFailed(ObjectUtils.nullOrElse(builder.retryTimesWhenSendAsyncFailed, producer.getRetryTimesWhenSendAsyncFailed()));
+        producer.setMaxMessageSize(ObjectUtils.nullOrElse(builder.maxMessageSize, producer.getMaxMessageSize()));
+        producer.setVipChannelEnabled(ObjectUtils.nullOrElse(builder.vipChannelEnabled, producer.isVipChannelEnabled()));
     }
 
-    public void send(Message message, SendCallback sendCallback) throws RemotingException, MQClientException, InterruptedException {
-        producer.send(message, sendCallback);
+    public void start() {
+        try {
+            producer.start();
+            String producerGroup = producer.getProducerGroup();
+            String nameServerAddr = producer.getNamesrvAddr();
+            BoosterProducerContext.registerProducer(producerGroup, producer);
+            logger.info("生产者启动成功 -> [NameServerAddr: {}] [GroupName: {}]", nameServerAddr, producerGroup);
+        } catch (MQClientException e) {
+            e.printStackTrace();
+        }
     }
 
-    static class Builder extends AbstractBuilder<BoosterProducer> {
+    public static class Builder extends AbstractBuilder<BoosterProducer> {
         private String groupName;
         private String nameServerAddr;
         private String instanceName;
@@ -51,28 +60,29 @@ public class BoosterProducer {
             this.groupName = groupName;
         }
 
-        public void setGroupName(String groupName) {
+        public Builder setGroupName(String groupName) {
             this.groupName = groupName;
+            return this;
         }
 
-        public void setNameServerAddr(String nameServerAddr) {
+        public Builder setNameServerAddr(String nameServerAddr) {
             this.nameServerAddr = nameServerAddr;
+            return this;
         }
 
-        public void setInstanceName(String instanceName) {
+        public Builder setInstanceName(String instanceName) {
             this.instanceName = instanceName;
+            return this;
         }
 
-        public void setRetryTimesWhenSendAsyncFailed(Integer retryTimesWhenSendAsyncFailed) {
+        public Builder setRetryTimesWhenSendAsyncFailed(Integer retryTimesWhenSendAsyncFailed) {
             this.retryTimesWhenSendAsyncFailed = retryTimesWhenSendAsyncFailed;
+            return this;
         }
 
-        public void setMaxMessageSize(Integer maxMessageSize) {
-            this.maxMessageSize = maxMessageSize;
-        }
-
-        public void setVipChannelEnabled(Boolean vipChannelEnabled) {
+        public Builder setVipChannelEnabled(Boolean vipChannelEnabled) {
             this.vipChannelEnabled = vipChannelEnabled;
+            return this;
         }
 
         @Override
