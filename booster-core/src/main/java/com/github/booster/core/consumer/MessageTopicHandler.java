@@ -61,7 +61,7 @@ public class MessageTopicHandler implements MessageHandler {
         }
 
         if (!Objects.isNull(messageHandler)) {
-            logger.info("[{}] 主题下的所有消息由 [{}] 处理", topic, messageHandler.getClass().getName());
+            logger.info("[{}] 主题下的所有消息由 {} 处理", topic, messageHandler.getClass().getName());
             // 移除所有的messageHandler
             for (List<String> tagKey : messageHandlerMap.keySet()) {
                 MessageHandler messageHandler = messageHandlerMap.get(tagKey);
@@ -73,7 +73,7 @@ public class MessageTopicHandler implements MessageHandler {
             for (List<String> tagKey : messageHandlerMap.keySet()) {
                 MessageHandler messageHandler = messageHandlerMap.get(tagKey);
                 String messageHandlerClassName = messageHandler.getClass().getName();
-                logger.info("[{}] 主题下的 [{}] 标签下的消息由 {} 处理", topic, tagKey, messageHandlerClassName);
+                logger.info("[{}] 主题下的 {} 标签下的消息由 {} 处理", topic, tagKey, messageHandlerClassName);
             }
         }
     }
