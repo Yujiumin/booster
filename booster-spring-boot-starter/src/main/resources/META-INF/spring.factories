@@ -1,0 +1,3 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+    com.github.booster.autoconfigure.BoosterConsumerAutoConfiguration,\
+    com.github.booster.autoconfigure.BoosterProducerAutoConfiguration
