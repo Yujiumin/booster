@@ -129,7 +129,7 @@ public class BoosterConsumer {
             } else if (Objects.isNull(groupName)) {
                 throw new BoosterException("GroupName不可为空");
             } else if (Objects.isNull(subscriptions)) {
-                throw new BoosterException("啥都不订阅就消费，想啥呢？");
+                throw new BoosterException("订阅信息不可为空");
             } else {
                 return new BoosterConsumer(this);
             }
