@@ -94,7 +94,7 @@ public class BoosterConsumerAutoConfiguration implements InitializingBean {
             Class<? extends MessageHandler> messageHandlerClass = messageHandler.getClass();
             Consumer annotation = messageHandlerClass.getAnnotation(Consumer.class);
             String topic = annotation.topic();
-            List<String> tagList = Arrays.asList(annotation.tags());
+            List<String> tagList = new ArrayList<>(Arrays.asList(annotation.tags()));
             if (topicTagMap.containsKey(topic)) {
                 topicTagMap.get(topic).addAll(tagList);
             } else {
