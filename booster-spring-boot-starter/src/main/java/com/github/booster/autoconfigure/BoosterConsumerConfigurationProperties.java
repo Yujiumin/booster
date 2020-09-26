@@ -17,8 +17,6 @@ public class BoosterConsumerConfigurationProperties {
 
     private Boolean enabled = false;
 
-    private String instanceName = "BOOSTER_CONSUMER";
-
     private Integer consumeThreadMin = 10;
 
     private Integer consumeThreadMax = 20;
@@ -33,14 +31,6 @@ public class BoosterConsumerConfigurationProperties {
 
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
-    }
-
-    public String getInstanceName() {
-        return instanceName;
-    }
-
-    public void setInstanceName(String instanceName) {
-        this.instanceName = instanceName;
     }
 
     public Integer getConsumeThreadMin() {

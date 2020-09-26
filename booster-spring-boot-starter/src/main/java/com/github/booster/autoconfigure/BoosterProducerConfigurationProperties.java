@@ -15,8 +15,6 @@ public class BoosterProducerConfigurationProperties {
 
     private Boolean enabled = false;
 
-    private String instanceName = "BOOSTER_PRODUCER";
-
     private Integer retryTimesWhenSendAsyncFailed = 3;
 
     private Boolean vipChannelEnabled = false;
@@ -27,14 +25,6 @@ public class BoosterProducerConfigurationProperties {
 
     public void setEnabled(Boolean enabled) {
         this.enabled = enabled;
-    }
-
-    public String getInstanceName() {
-        return instanceName;
-    }
-
-    public void setInstanceName(String instanceName) {
-        this.instanceName = instanceName;
     }
 
     public Integer getRetryTimesWhenSendAsyncFailed() {
