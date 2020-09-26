@@ -30,7 +30,7 @@ public class BoosterConsumer {
         try {
             consumer = new DefaultMQPushConsumer(builder.groupName);
             consumer.setNamesrvAddr(builder.nameServerAddr);
-            consumer.setInstanceName(ObjectUtils.nullOrElse(builder.instanceName, StringUtils.link("_", builder.groupName.toUpperCase(), "CONSUMER")));
+            consumer.setInstanceName(ObjectUtils.nullOrElse(builder.instanceName, StringUtils.link("_", "BOOSTER_CONSUMER", builder.groupName.toUpperCase())));
             consumer.setConsumeThreadMin(ObjectUtils.nullOrElse(builder.consumeThreadMin, consumer.getConsumeThreadMin()));
             consumer.setConsumeThreadMax(ObjectUtils.nullOrElse(builder.consumeThreadMax, consumer.getConsumeThreadMax()));
             consumer.setConsumeFromWhere(ObjectUtils.nullOrElse(builder.consumeFromWhere, consumer.getConsumeFromWhere()));

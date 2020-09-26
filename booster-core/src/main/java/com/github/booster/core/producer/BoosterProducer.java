@@ -26,7 +26,7 @@ public class BoosterProducer {
     private BoosterProducer(Builder builder) {
         producer = new DefaultMQProducer(builder.groupName);
         producer.setNamesrvAddr(builder.nameServerAddr);
-        producer.setInstanceName(ObjectUtils.nullOrElse(builder.instanceName,StringUtils.link("_", builder.groupName.toUpperCase(), "PRODUCER")));
+        producer.setInstanceName(ObjectUtils.nullOrElse(builder.instanceName, StringUtils.link("_", "BOOSTER_PRODUCER", builder.groupName.toUpperCase())));
         producer.setRetryTimesWhenSendAsyncFailed(ObjectUtils.nullOrElse(builder.retryTimesWhenSendAsyncFailed, producer.getRetryTimesWhenSendAsyncFailed()));
         producer.setMaxMessageSize(ObjectUtils.nullOrElse(builder.maxMessageSize, producer.getMaxMessageSize()));
         producer.setVipChannelEnabled(ObjectUtils.nullOrElse(builder.vipChannelEnabled, producer.isVipChannelEnabled()));
