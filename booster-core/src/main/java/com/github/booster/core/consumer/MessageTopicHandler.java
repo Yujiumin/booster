@@ -82,7 +82,6 @@ public class MessageTopicHandler implements MessageHandler {
     @Override
     public ConsumeConcurrentlyStatus consumeMessage(MessageExt messageExt) {
         String currentMessageTags = messageExt.getTags();
-        logger.info("[{}]收到消息，TAG为[{}]", getClass().getName(), currentMessageTags);
         if (!Objects.isNull(messageHandler)) {
             // 当前有处理所有TAG的消息处理器
             return messageHandler.consumeMessage(messageExt);
