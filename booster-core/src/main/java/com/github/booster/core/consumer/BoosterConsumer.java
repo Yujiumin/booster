@@ -51,7 +51,9 @@ public class BoosterConsumer {
     public void listen() {
         try {
             consumer.start();
-            logger.info("[{}]组消费者启动成功", consumer.getConsumerGroup());
+            String nameServerAddr = consumer.getNamesrvAddr();
+            String consumerGroup = consumer.getConsumerGroup();
+            logger.info("消费者启动成功 -> [NameServerAddr: {}] [GroupName: {}]", nameServerAddr, consumerGroup);
         } catch (MQClientException e) {
             e.printStackTrace();
         }
