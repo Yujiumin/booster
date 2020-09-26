@@ -10,6 +10,7 @@ import org.apache.rocketmq.client.producer.MQProducer;
 import org.apache.rocketmq.client.producer.SendCallback;
 import org.apache.rocketmq.common.message.MessageExt;
 import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -19,6 +20,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Objects;
 
@@ -61,9 +64,16 @@ public class ProducerAspect {
      * 方法调用前调用
      */
     @Before("producer() && callback() && message()")
-    public void beforeInvoke() {
-        // TODO: 2020/09/22 打印些日志
-        System.out.println("调用了");
+    public void beforeInvoke(JoinPoint joinPoint) {
+        Signature signature = joinPoint.getSignature();
+        if (signature instanceof MethodSignature) {
+            MethodSignature methodSignature = (MethodSignature) signature;
+            Method method = methodSignature.getMethod();
+            Class<?> returnType = method.getReturnType();
+            if (Objects.equals(returnType, Void.TYPE)) {
+                throw new UnsupportedOperationException("返回类型不可以为 void");
+            }
+        }
     }
 
     /**
@@ -85,13 +95,20 @@ public class ProducerAspect {
                 //设置META信息
                 Method method = ((MethodSignature) joinPoint.getSignature()).getMethod();
                 Message message = method.getAnnotation(Message.class);
-                messageExt.setTopic(message.topic());
-                messageExt.setTags(String.join(BoosterConstant.TAG_SEPARATOR, message.tags()));
-                messageExt.setKeys(Arrays.asList(message.keys()));
+                String topic = message.topic();
+                String[] tags = message.tags();
+                String[] keys = message.keys();
+
+                messageExt.setTopic(topic);
+                messageExt.setTags(String.join(BoosterConstant.TAG_SEPARATOR, tags));
+                messageExt.setKeys(Arrays.asList(keys));
 
                 // 设置消息内容
                 byte[] messageBytes = JSON.toJSONBytes(result, SerializerFeature.SkipTransientField);
                 messageExt.setBody(messageBytes);
+
+                logger.info("Message Meta Data -> [TOPIC:{}, TAGS:{}, KEYS:{}", topic, tags, keys);
+                logger.info("Message Body -> {}", new String(messageBytes, StandardCharsets.UTF_8));
 
                 // 发送消息
                 producer.send(messageExt, (SendCallback) target);
